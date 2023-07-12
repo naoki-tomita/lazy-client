@@ -36,10 +36,10 @@ Deno.test("Lazy client test.", async (t) => {
   await t.step("Post and set headers and body", async () => {
     reset();
 
-    await client.post().to("http://example.com").header("cookie", "hoge").body("Hello world");
+    await client.post().to("http://example.com").header("cookie", "hoge").header("foo", "bar").body("Hello world");
     assertSpyCalls(fetchStub, 1);
     assertSpyCallArg(fetchStub, 0, 0, "http://example.com");
-    assertSpyCallArg(fetchStub, 0, 1, { method: "POST", headers: {cookie: "hoge"}, body: "Hello world" });
+    assertSpyCallArg(fetchStub, 0, 1, { method: "POST", headers: {cookie: "hoge", "foo": "bar"}, body: "Hello world" });
   });
 
   fetchStub.restore();

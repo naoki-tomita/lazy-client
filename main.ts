@@ -35,14 +35,9 @@ export class LazyClient {
       to: (url: string): PromiseAndProps<T> => {
         client.url = url;
 
-        const p = new Promise<T>(ok =>
-          setTimeout(() => {
-            client.exec().then(it => it.json()).then(ok);
-          }, 0)
-        );
         return {
           then(fn) {
-            return p.then(fn);
+            return client.exec().then(it => it.json()).then(fn);
           },
           header(k, v) {
             client.headers[k] = v;
